@@ -13,7 +13,7 @@ class Screen1 extends StatelessWidget {
       appBar: AppBar(title: Text('Screen 1')),
       body: Column(
         children: <Widget>[
-          Text('GetX vs Obs Vs GetBuilder'),
+          Text('GetX vs Obs vs GetBuilder'),
           Divider(color: Colors.blue),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
