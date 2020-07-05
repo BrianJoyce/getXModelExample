@@ -16,8 +16,11 @@ class CounterController extends GetxController {
   }
 
   void incrementObs() {
-    _counterObs.value.unit == null
-        ? _counterObs.value.unit = 1
-        : _counterObs.value.unit++;
+    // _counterObs.value.unit == null
+    //     ? _counterObs.value.unit = 1
+    //     : _counterObs.value.unit++;
+    _counterObs.update((ctr) {
+      ctr.unit == null ? ctr.unit = 1 : ctr.unit++;
+    });
   }
 }

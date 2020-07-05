@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_examples/controllers/counter_controller.dart';
+import 'package:getx_examples/controllers/proejct_controller.dart';
 import 'package:getx_examples/screen2.dart';
+
+import 'models/project.dart';
 
 class Screen1 extends StatelessWidget {
   // const Screen1({Key key}) : super(key: key);
   final CounterController counterController = Get.put(CounterController());
+  final ProjectController _projectController = Get.put(ProjectController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +44,83 @@ class Screen1 extends StatelessWidget {
           RaisedButton(
             child: Text('Screen 2'),
             onPressed: () => Get.to(Screen2()),
+          ),
+          Divider(color: Colors.blue),
+          // Obx(
+          //   () => showExpanedList(),
+          // ),
+          GetBuilder<ProjectController>(
+            init: ProjectController(),
+            builder: (_) {
+              return getbuldershowExpanedList(_);
+            },
           )
         ],
       ),
     );
   }
+
+  getbuldershowExpanedList(dynamic projectCtrl) {
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool expanded) {
+        // model.populateExpanded(index: index);
+        // log.w(_projectController.projectsList[0].projectName);
+        // log.w(_projectController.projectsList[0].expanded);
+        projectCtrl.changeName(index: index);
+      },
+      children: projectCtrl.projectsList.map<ExpansionPanel>((Project project) {
+        return ExpansionPanel(
+            isExpanded: project.expanded,
+            canTapOnHeader: true,
+            headerBuilder: (BuildContext context, bool isExpanded) {
+              return ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(project.projectName),
+                    Text(projectCtrl.projectsList.length.toString()),
+                    // Text(project.type),
+                    // Text('${project.createdAt ?? null}'),
+                  ],
+                ),
+              );
+            },
+            body: Text(project.projectName));
+      }).toList(),
+    );
+  }
+
+  // showExpanedList() {
+  //   return ExpansionPanelList(
+  //     expansionCallback: (int index, bool expanded) {
+  //       // model.populateExpanded(index: index);
+  //       // log.w(_projectController.projectsList[0].projectName);
+  //       // log.w(_projectController.projectsList[0].expanded);
+  //       _projectController.changeName(index: index);
+  //     },
+  //     children: _projectController.projectsList
+  //         .map<ExpansionPanel>((Rx<Project> project) {
+  //       return ExpansionPanel(
+  //           isExpanded: project.value.expanded,
+  //           canTapOnHeader: true,
+  //           headerBuilder: (BuildContext context, bool isExpanded) {
+  //             return ListTile(
+  //               title: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: <Widget>[
+  //                   Obx(() => Text(project.value.projectName)),
+  //                   Obx(() => Text(
+  //                       _projectController.projectsList.length.toString())),
+  //                   // Text(project.type),
+  //                   // Text('${project.createdAt ?? null}'),
+  //                 ],
+  //               ),
+  //             );
+  //           },
+  //           body: Text(project.value.projectName));
+  //     }).toList(),
+  //   );
+  // }
 
   Column getBuilderExample() {
     return Column(
